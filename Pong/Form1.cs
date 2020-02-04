@@ -116,6 +116,11 @@ namespace Pong
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// sets the ball and paddle positions for game start
         /// </summary>
@@ -144,20 +149,36 @@ namespace Pong
             p2.Y = this.Height / 2 - p2.Height / 2;
 
             // TODO set Width and Height of ball
-            // TODO set starting X position for ball to middle of screen, (use this.Width and ball.Width)
-            // TODO set starting Y position for ball to middle of screen, (use this.Height and ball.Height)
+            ball.Height = 5;
+            ball.Width = 5;
 
+            // TODO set starting X position for ball to middle of screen, (use this.Width and ball.Width)
+            ball.Width = this.Width / 2;
+            // TODO set starting Y position for ball to middle of screen, (use this.Height and ball.Height)
+            ball.Height = this.Height / 2;
         }
 
         /// <summary>
         /// This method is the game engine loop that updates the position of all elements
         /// and checks for collisions.
-        /// </summary>
+        /// </summary>C:\Users\chrirous315\Source\Repos\ChrisJR3\Pong-4U-Template\Pong\Resources\wall bounce.wav
         private void gameUpdateLoop_Tick(object sender, EventArgs e)
         {
+            SoundPlayer player1 = new SoundPlayer(Properties.Resources.collision);
+            SoundPlayer player2 = new SoundPlayer(Properties.Resources.score);
+
             #region update ball position
 
             // TODO create code to move ball either left or right based on ballMoveRight and using BALL_SPEED
+            if (ballMoveRight == true)
+            {
+                ball.X = ball.X + BALL_SPEED;
+            }
+
+            if (ballMoveRight == false)
+            {
+                ball.X = ball.X - BALL_SPEED;
+            }
 
             // TODO create code move ball either down or up based on ballMoveDown and using BALL_SPEED
 
@@ -168,24 +189,49 @@ namespace Pong
             if (aKeyDown == true && p1.Y > 0)
             {
                 // TODO create code to move player 1 paddle up using p1.Y and PADDLE_SPEED
+                p1.Y = p1.Y + PADDLE_SPEED;
             }
 
             // TODO create an if statement and code to move player 1 paddle down using p1.Y and PADDLE_SPEED
+            if (zKeyDown == true && p1.Y < this.Height)
+            {
+                p1.Y = p1.Y - PADDLE_SPEED;
+            }
 
             // TODO create an if statement and code to move player 2 paddle up using p2.Y and PADDLE_SPEED
+            if (jKeyDown == true && p2.Y > 0)
+            {
+                // TODO create code to move player 1 paddle up using p1.Y and PADDLE_SPEED
+                p2.Y = p2.Y + PADDLE_SPEED;
+            }
 
             // TODO create an if statement and code to move player 2 paddle down using p2.Y and PADDLE_SPEED
+            if (mKeyDown == true && p2.Y > 0)
+            {
+                // TODO create code to move player 1 paddle up using p1.Y and PADDLE_SPEED
+                p2.Y = p2.Y + PADDLE_SPEED;
+            }
 
             #endregion
 
             #region ball collision with top and bottom lines
 
-            if (ball.Y < 0) // if ball hits top line
+            if ((ball.Y + (ball.Height/ 2)) < 0) // if ball hits top line
             {
                 // TODO use ballMoveDown boolean to change direction
+                ballMoveDown = true;
+
                 // TODO play a collision sound
+                player1.Play();
             }
+
             // TODO In an else if statement use ball.Y, this.Height, and ball.Width to check for collision with bottom line
+            else if ((ball.Y + (ball.Height / 2)) > this.Height) // if ball hits bottom line
+            {
+                ballMoveDown = false;
+
+                player1.Play();
+            }
             // If true use ballMoveDown down boolean to change direction
 
             #endregion
@@ -193,13 +239,25 @@ namespace Pong
             #region ball collision with paddles
 
             // TODO create if statment that checks p1 collides with ball and if it does
-                 // --- play a "paddle hit" sound and
-                 // --- use ballMoveRight boolean to change direction
+            // --- play a "paddle hit" sound and
+            // --- use ballMoveRight boolean to change direction
+            if ((ball.X + (ball.Width / 2)) < p1.X) // if ball hits p1 paddle
+            {
+                ballMoveRight = true;
+
+                player1.Play();
+            }
 
             // TODO create if statment that checks p2 collides with ball and if it does
-                // --- play a "paddle hit" sound and
-                // --- use ballMoveRight boolean to change direction
-            
+            // --- play a "paddle hit" sound and
+            // --- use ballMoveRight boolean to change direction
+            if ((ball.X + (ball.Width / 2)) > p2.X) // if ball hits p2 paddle
+            {
+                ballMoveRight = true;
+
+                player1.Play();
+            }
+
             /*  ENRICHMENT
              *  Instead of using two if statments as noted above see if you can create one
              *  if statement with multiple conditions to play a sound and change direction
@@ -213,11 +271,15 @@ namespace Pong
             {
                 // TODO
                 // --- play score sound
+                player2.Play();
                 // --- update player 2 score
-
-                // TODO use if statement to check to see if player 2 has won the game. If true run 
+                player2Score = player2Score + 1;
+                // TODO use if statement to check to see if player 2 has won the game. If true run
                 // GameOver method. Else change direction of ball and call SetParameters method.
-
+                if (player2Score == 5)
+                {
+                    GameOver(); //error and where I left off
+                }
             }
 
             // TODO same as above but this time check for collision with the right wall
