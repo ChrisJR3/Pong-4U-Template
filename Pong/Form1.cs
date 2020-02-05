@@ -157,9 +157,9 @@ namespace Pong
             ball.Width = 5;
 
             // TODO set starting X position for ball to middle of screen, (use this.Width and ball.Width)
-            ball.Width = this.Width / 2;
+            ball.X = this.Width / 2;
             // TODO set starting Y position for ball to middle of screen, (use this.Height and ball.Height)
-            ball.Height = this.Height / 2;
+            ball.Y = this.Height / 2;
         }
 
         /// <summary>
@@ -201,27 +201,27 @@ namespace Pong
             if (aKeyDown == true && p1.Y > 0)
             {
                 // TODO create code to move player 1 paddle up using p1.Y and PADDLE_SPEED
-                p1.Y = p1.Y + PADDLE_SPEED;
+                p1.Y = p1.Y - PADDLE_SPEED;
             }
 
             // TODO create an if statement and code to move player 1 paddle down using p1.Y and PADDLE_SPEED
             else if (zKeyDown == true && p1.Y < this.Height)
             {
-                p1.Y = p1.Y - PADDLE_SPEED;
+                p1.Y = p1.Y + PADDLE_SPEED;
             }
 
             // TODO create an if statement and code to move player 2 paddle up using p2.Y and PADDLE_SPEED
             if (jKeyDown == true && p2.Y > 0)
             {
                 // TODO create code to move player 1 paddle up using p2.Y and PADDLE_SPEED
-                p2.Y = p2.Y + PADDLE_SPEED;
+                p2.Y = p2.Y - PADDLE_SPEED;
             }
 
             // TODO create an if statement and code to move player 2 paddle down using p2.Y and PADDLE_SPEED
             else if (mKeyDown == true && p2.Y < this.Height)
             {
                 // TODO create code to move player 1 paddle down using p2.Y and PADDLE_SPEED
-                p2.Y = p2.Y - PADDLE_SPEED;
+                p2.Y = p2.Y + PADDLE_SPEED;
             }
 
             #endregion
@@ -245,8 +245,9 @@ namespace Pong
                 collisionSound.Play();
             }
             // If true use ballMoveDown down boolean to change direction
+            // I already did above
 
-            #endregion
+            #endregion // here
 
             #region ball collision with paddles
 
@@ -290,7 +291,7 @@ namespace Pong
                 // GameOver method. Else change direction of ball and call SetParameters method.
                 if (player2Score == gameWinScore)
                 {
-                    GameOver(); //error and where I left off
+                    GameOver(winner: "player 2"); 
                 }
             }
 
@@ -301,7 +302,7 @@ namespace Pong
                 player1Score = player1Score + 1;
                 if (player1Score == gameWinScore)
                 {
-                    GameOver(); 
+                    GameOver(winner: "player 1");
                 }
             }
 
@@ -324,29 +325,14 @@ namespace Pong
             // --- stop the gameUpdateLoop
             
 
-            if (player1Score == 5)
-            {
-                // --- show a message on the startLabel to indicate a winner, (need to Refresh).
-                outputLabel.Visible = true;
-                outputLabel.Text = "Winner is Player 1!";
-                // --- pause for two seconds 
-                Thread.Sleep(2000);
-                // --- use the startLabel to ask the user if they want to play again
-                outputLabel.Visible = false;
-                playAgain.Visible = true;
-            }
-
-            else if (player2Score == 5)
-            {
-                // --- show a message on the startLabel to indicate a winner, (need to Refresh).
-                outputLabel.Visible = true;
-                outputLabel.Text = "Winner is Player 2!";
-                // --- pause for two seconds 
-                Thread.Sleep(2000);
-                // --- use the startLabel to ask the user if they want to play again
-                outputLabel.Visible = false;
-                playAgain.Visible = true;
-            }
+            // --- show a message on the startLabel to indicate a winner, (need to Refresh).
+            outputLabel.Visible = true;
+            outputLabel.Text = "Winner is " + winner + "!";
+            // --- pause for two seconds 
+            Thread.Sleep(2000);
+            // --- use the startLabel to ask the user if they want to play again
+            outputLabel.Visible = false;
+            playAgain.Visible = true;
 
             player1Score = 0;
             player2Score = 0;
