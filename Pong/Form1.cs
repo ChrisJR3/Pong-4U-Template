@@ -50,7 +50,7 @@ namespace Pong
         Rectangle ball;
 
         //paddle speeds and rectangles
-        const int PADDLE_SPEED = 4;
+        const int PADDLE_SPEED = 6;
         Rectangle p1, p2;
 
         //player and game scores
@@ -228,7 +228,7 @@ namespace Pong
 
             #region ball collision with top and bottom lines
 
-            if ((ball.Y + (ball.Height/ 2)) < 0) // if ball hits top line
+            if ((ball.Y + (ball.Height/ 2)) <= 0) // if ball hits top line
             {
                 // TODO use ballMoveDown boolean to change direction
                 ballMoveDown = true;
@@ -238,7 +238,7 @@ namespace Pong
             }
 
             // TODO In an else if statement use ball.Y, this.Height, and ball.Width to check for collision with bottom line
-            else if ((ball.Y + (ball.Height / 2)) > this.Height) // if ball hits bottom line
+            else if ((ball.Y + (ball.Height / 2)) >= this.Height) // if ball hits bottom line
             {
                 ballMoveDown = false;
 
@@ -266,7 +266,7 @@ namespace Pong
             // --- use ballMoveRight boolean to change direction
             if ((ball.X + (ball.Width / 2)) > p2.X) // if ball hits p2 paddle
             {
-                ballMoveRight = true;
+                ballMoveRight = false;
 
                 collisionSound.Play();
             }
@@ -323,7 +323,7 @@ namespace Pong
 
             // TODO create game over logic
             // --- stop the gameUpdateLoop
-            
+            gameTimerTick.Stop;
 
             // --- show a message on the startLabel to indicate a winner, (need to Refresh).
             outputLabel.Visible = true;
