@@ -336,6 +336,7 @@ namespace Pong
             // --- show a message on the startLabel to indicate a winner, (need to Refresh).
             startLabel.Visible = true;
             startLabel.Text = "Winner is " + winner + "!";
+            this.Refresh();
 
             // --- pause for two seconds 
             Thread.Sleep(2000);
